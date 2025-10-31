@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Code Copier</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafc;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+    textarea {
+      width: 90%;
+      height: 320px;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      resize: none;
+      outline: none;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .note {
+      font-size: 13px;
+      color: #555;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Smart Code Copier</h1>
+  <p>Copy or paste unlimited lines of code without limits</p>
+
+  <textarea id="code" placeholder="Paste or write your code here..."></textarea><br>
+  <button onclick="copyCode()">Copy All</button>
+  <button onclick="pasteCode()">Paste</button>
+
+  <p class="note">Tip: Install this app on your home screen for faster access.</p>
+
+  <script>
+    async function copyCode() {
+      const text = document.getElementById('code').value;
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("✅ Code copied successfully!");
+      } catch (err) {
+        alert("❌ Copy failed: " + err);
+      }
+    }
+
+    async function pasteCode() {
+      try {
+        const text = await navigator.clipboard.readText();
+        document.getElementById('code').value = text;
+      } catch (err) {
+        alert("❌ Paste failed: " + err);
+      }
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
+</body>
+</html>
